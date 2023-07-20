@@ -1,0 +1,44 @@
+<div>
+  <div *ngFor="let fruit of fruits; even as even; odd as odd">
+    <h3
+      *ngIf="fruit.price > 7"
+      [ngClass]="{ success: even, error: odd, bigPrice: fruit.price > 15 }"
+    >
+      name: {{ fruit.name | uppercase }}, price: {{ fruit.price }}
+    </h3>
+  </div>
+</div>
+
+<hr />
+<h1 [ngClass]="{ default: true, success: isSuccess, error: !isSuccess }">Lorem ipsum</h1>
+<h1 [ngStyle]="{ fontSize: '50px', color: 'purple' }">Lorem ipsum</h1>
+<hr />
+<input [(ngModel)]="value" />
+<div [ngSwitch]="value">
+  <div *ngSwitchCase="'1'">One</div>
+  <div *ngSwitchCase="'2'">Two</div>
+  <div *ngSwitchCase="'3'">Three</div>
+  <div *ngSwitchDefault>Unknown number</div>
+</div>
+<hr />
+<div>
+  <div *ngIf="isLoading"><h1>Loading...</h1></div>
+</div>
+
+<h1>
+  Parent {{ name }} {{ surName }} from {{ address.country }}, {{ address.city }},
+  {{ address.house }}
+</h1>
+<inst-child [surName]="surName" [address]="address"></inst-child>
+<hr />
+<ng-container *ngIf="!isLoading">
+  <div *ngFor="let lesson of lessons">
+    <div>
+      <h3>{{ lesson.title }}</h3>
+      <div>
+        week grades :
+        <div *ngFor="let grade of lesson.weekGrades">{{ grade.gradeItem }}</div>
+      </div>
+    </div>
+  </div>
+</ng-container>
