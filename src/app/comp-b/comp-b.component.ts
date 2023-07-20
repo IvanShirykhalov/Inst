@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { ValueService } from 'src/app/sevrices/value.service'
+import { Observable } from 'rxjs'
+import { BeautifulLoggerService } from 'src/app/sevrices/beautiful-logger.service'
 
 @Component({
   selector: 'inst-comp-b',
@@ -7,18 +9,28 @@ import { ValueService } from 'src/app/sevrices/value.service'
   styleUrls: ['./comp-b.component.scss'],
 })
 export class CompBComponent implements OnInit {
-  value = 0
+  constructor(
+    private valueService: ValueService,
+    private beautifulLoggerService: BeautifulLoggerService,
+  ) {}
+
+  value$ = new Observable()
 
   decValueHandler() {
     this.valueService.dec()
+    //console.log('dec value')
+    this.beautifulLoggerService.log('dec value', 'error')
   }
 
-  constructor(private valueService: ValueService) {}
-
   ngOnInit() {
-    this.valueService.value$.subscribe((value: number) => {
-      this.value = value
-    })
+    this.value$ = this.valueService.value$
+
+    //Подписка
+    // this.valueService.value$.subscribe((value: number) => {
+    //   this.value = value
+    // })
+
+    //Старый код
     //this.value = this.valueService.value
   }
 }
