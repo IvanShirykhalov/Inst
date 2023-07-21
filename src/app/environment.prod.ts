@@ -1,0 +1,5 @@
+export const environment = {
+  production: true,
+  baseUrl: 'https://social-network.samuraijs.com/api/1.1/todo-lists',
+  apiKey: '5936c173-624b-4ce0-b32b-55723c8702bd',
+}
