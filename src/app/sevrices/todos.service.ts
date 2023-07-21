@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
-import { Observable } from 'rxjs'
+import { BehaviorSubject, map } from 'rxjs'
 import { environment } from 'src/app/environment'
 
 export interface Todo {
@@ -21,6 +21,7 @@ export interface BaseResponseType<T = {}> {
   providedIn: 'root',
 })
 export class TodosService {
+  todos$: BehaviorSubject<Todo[]> = new BehaviorSubject<Todo[]>([])
   httpOptions = {
     withCredentials: true,
     headers: {
@@ -30,19 +31,45 @@ export class TodosService {
 
   constructor(private http: HttpClient) {}
 
-  getTodos(): Observable<Todo[]> {
-    return this.http.get<Todo[]>(`${environment.baseUrl}`, this.httpOptions)
+  getTodos() {
+    this.http.get<Todo[]>(`${environment.baseUrl}`, this.httpOptions).subscribe({
+      next: todos => {
+        this.todos$.next(todos)
+      },
+    })
   }
 
-  createTodo(title: string): Observable<BaseResponseType<{ item: Todo }>> {
-    return this.http.post<
-      BaseResponseType<{
-        item: Todo
-      }>
-    >(`${environment.baseUrl}`, { title }, this.httpOptions)
+  createTodo(title: string) {
+    this.http
+      .post<
+        BaseResponseType<{
+          item: Todo
+        }>
+      >(`${environment.baseUrl}`, { title }, this.httpOptions)
+      .pipe(
+        map(res => {
+          // const newTodo = res.data.item
+          // const todos = this.todos$.getValue()
+          // return [newTodo, ...todos]
+
+          return [res.data.item, ...this.todos$.getValue()]
+        }),
+      )
+      .subscribe(todos => {
+        this.todos$.next(todos)
+      })
   }
 
-  deleteTodo(todoId: string): Observable<BaseResponseType> {
-    return this.http.delete<BaseResponseType>(`${environment.baseUrl}/${todoId}`, this.httpOptions)
+  deleteTodo(todoId: string) {
+    this.http
+      .delete<BaseResponseType>(`${environment.baseUrl}/${todoId}`, this.httpOptions)
+      .pipe(
+        map(() => {
+          return this.todos$.getValue().filter(tl => tl.id !== todoId)
+        }),
+      )
+      .subscribe(todos => {
+        this.todos$.next(todos)
+      })
   }
 }
