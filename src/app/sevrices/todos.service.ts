@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core'
-import { HttpClient } from '@angular/common/http'
-import { BehaviorSubject, map } from 'rxjs'
+import { HttpClient, HttpErrorResponse } from '@angular/common/http'
+import { BehaviorSubject, catchError, EMPTY, map } from 'rxjs'
 import { environment } from 'src/app/environment'
+import { BeautifulLoggerService } from 'src/app/sevrices/beautiful-logger.service'
 
 export interface Todo {
   id: string
@@ -29,14 +30,20 @@ export class TodosService {
     },
   }
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private beautifulLoggerService: BeautifulLoggerService,
+  ) {}
 
   getTodos() {
-    this.http.get<Todo[]>(`${environment.baseUrl}`, this.httpOptions).subscribe({
-      next: todos => {
-        this.todos$.next(todos)
-      },
-    })
+    this.http
+      .get<Todo[]>(`${environment.baseUrl}`, this.httpOptions)
+      .pipe(catchError(this.errorHandler.bind(this)))
+      .subscribe({
+        next: todos => {
+          this.todos$.next(todos)
+        },
+      })
   }
 
   createTodo(title: string) {
@@ -47,6 +54,7 @@ export class TodosService {
         }>
       >(`${environment.baseUrl}`, { title }, this.httpOptions)
       .pipe(
+        catchError(this.errorHandler.bind(this)),
         map(res => {
           // const newTodo = res.data.item
           // const todos = this.todos$.getValue()
@@ -64,6 +72,7 @@ export class TodosService {
     this.http
       .delete<BaseResponseType>(`${environment.baseUrl}/${todoId}`, this.httpOptions)
       .pipe(
+        catchError(this.errorHandler.bind(this)),
         map(() => {
           return this.todos$.getValue().filter(tl => tl.id !== todoId)
         }),
@@ -71,5 +80,10 @@ export class TodosService {
       .subscribe(todos => {
         this.todos$.next(todos)
       })
+  }
+
+  private errorHandler(err: HttpErrorResponse) {
+    this.beautifulLoggerService.log(err.message, 'error')
+    return EMPTY
   }
 }

@@ -37,38 +37,4 @@ export class TodosComponent implements OnInit {
 
     this.todosService.deleteTodo(todoId)
   }
-
-  // getTodos() {
-  //   this.subscriptions.add(
-  //     this.todosService.getTodos().subscribe({
-  //       next: (res: Todo[]) => {
-  //         this.todos = res
-  //       },
-  //       error: (error: HttpErrorResponse) => {
-  //         this.error = error.message
-  //       },
-  //     }),
-  //   )
-  // }
-  //createTodo() {
-  //   const randomNumber = Math.floor(Math.random() * 100)
-  //   const title = 'Angular ' + randomNumber
-  //
-  //   this.subscriptions.add(
-  //     this.todosService.createTodo(title).subscribe(res => {
-  //       this.todos.unshift(res.data.item)
-  //     }),
-  //   )
-  // }
-
-  //
-  //deleteTodo() {
-  //   const todoId = '66f79195-2f84-472d-8669-f570d058ae1f'
-  //
-  //   this.subscriptions.add(
-  //     this.todosService.deleteTodo(todoId).subscribe(() => {
-  //       this.todos = this.todos.filter(tl => tl.id !== todoId)
-  //     }),
-  //   )
-  // }
 }
