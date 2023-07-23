@@ -37,7 +37,7 @@ export class TodosService {
 
   getTodos() {
     this.http
-      .get<Todo[]>(`${environment.baseUrl}`, this.httpOptions)
+      .get<Todo[]>(`${environment.baseTodoUrl}/todo-lists`, this.httpOptions)
       .pipe(catchError(this.errorHandler.bind(this)))
       .subscribe({
         next: todos => {
@@ -52,7 +52,7 @@ export class TodosService {
         BaseResponseType<{
           item: Todo
         }>
-      >(`${environment.baseUrl}`, { title }, this.httpOptions)
+      >(`${environment.baseTodoUrl}/todo-lists`, { title }, this.httpOptions)
       .pipe(
         catchError(this.errorHandler.bind(this)),
         map(res => {
@@ -70,7 +70,7 @@ export class TodosService {
 
   deleteTodo(todoId: string) {
     this.http
-      .delete<BaseResponseType>(`${environment.baseUrl}/${todoId}`, this.httpOptions)
+      .delete<BaseResponseType>(`${environment.baseTodoUrl}/todo-lists/${todoId}`, this.httpOptions)
       .pipe(
         catchError(this.errorHandler.bind(this)),
         map(() => {

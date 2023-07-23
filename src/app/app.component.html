@@ -1,10 +1,15 @@
-<!--<hr />-->
-<!--<h2>{{ text }}</h2>-->
-<!--<input [(ngModel)]="text" />-->
-<!--<hr />-->
-<!--<inst-parent></inst-parent>-->
-<!--<inst-comp-a></inst-comp-a>-->
-<!--<hr />-->
-<!--<inst-comp-b></inst-comp-b>-->
-<inst-login></inst-login>
-<inst-todos></inst-todos>
+<nav>
+  <a
+    class="button"
+    routerLink=""
+    routerLinkActive="activebutton"
+    [routerLinkActiveOptions]="{ exact: true }"
+    >Home</a
+  >
+  | <a class="button" routerLink="login" routerLinkActive="activebutton">Login</a> |
+  <a class="button" routerLink="profile" routerLinkActive="activebutton">Profile</a> |
+  <a class="button" routerLink="todos" routerLinkActive="activebutton">Todos</a> |
+  <a class="button" routerLink="users" routerLinkActive="activebutton">Users</a>
+</nav>
+
+<router-outlet></router-outlet>
