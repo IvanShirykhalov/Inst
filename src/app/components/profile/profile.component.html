@@ -1,3 +1,4 @@
 <div *ngIf="profile$ | async as profile">
   <p>{{ profile.userId }} {{ profile.fullName }}</p>
 </div>
+<button (click)="backToUsersHandler()">Back to users</button>

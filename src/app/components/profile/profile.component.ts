@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { ActivatedRoute } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router'
 import { ProfileResponse, ProfileService } from 'src/app/sevrices/profile.service'
 import { Observable } from 'rxjs'
 
@@ -14,6 +14,7 @@ export class ProfileComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private profileService: ProfileService,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -21,5 +22,9 @@ export class ProfileComponent implements OnInit {
     if (userId) {
       this.profile$ = this.profileService.getProfile(userId)
     }
+  }
+
+  backToUsersHandler() {
+    this.router.navigate(['/users'])
   }
 }

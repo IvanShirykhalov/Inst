@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
-import { HttpClient, HttpErrorResponse } from '@angular/common/http'
+import { HttpClient, HttpErrorResponse } from "@angular/common/http"
 import { environment } from 'src/app/environment'
-import { BehaviorSubject, catchError, EMPTY } from 'rxjs'
+import { catchError, EMPTY, map, Observable } from "rxjs"
 import { BeautifulLoggerService } from 'src/app/sevrices/beautiful-logger.service'
 
 interface UsersResponse {
@@ -24,7 +24,6 @@ export interface User {
   providedIn: 'root',
 })
 export class UsersService {
-  users$: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([])
   httpOptions = {
     withCredentials: true,
     headers: {
@@ -37,15 +36,13 @@ export class UsersService {
     private beautifulLoggerService: BeautifulLoggerService,
   ) {}
 
-  getUsers() {
-    this.http
-      .get<UsersResponse>(`${environment.baseNetworkUrl}/users`, this.httpOptions)
-      .pipe(catchError(this.errorHandler.bind(this)))
-      .subscribe({
-        next: res => {
-          this.users$.next(res.items)
-        },
-      })
+  getUsers(page: number): Observable<User[]> {
+    return this.http
+      .get<UsersResponse>(`${environment.baseNetworkUrl}/users?page=${page}`, this.httpOptions)
+      .pipe(
+        map(el => el.items),
+        catchError(this.errorHandler.bind(this)),
+      )
   }
 
   private errorHandler(err: HttpErrorResponse) {
