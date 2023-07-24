@@ -23,12 +23,7 @@ export interface BaseResponseType<T = {}> {
 })
 export class TodosService {
   todos$: BehaviorSubject<Todo[]> = new BehaviorSubject<Todo[]>([])
-  httpOptions = {
-    withCredentials: true,
-    headers: {
-      'api-key': environment.apiKey,
-    },
-  }
+
 
   constructor(
     private http: HttpClient,
@@ -37,7 +32,7 @@ export class TodosService {
 
   getTodos() {
     this.http
-      .get<Todo[]>(`${environment.baseTodoUrl}/todo-lists`, this.httpOptions)
+      .get<Todo[]>(`${environment.baseTodoUrl}/todo-lists`)
       .pipe(catchError(this.errorHandler.bind(this)))
       .subscribe({
         next: todos => {
@@ -52,7 +47,7 @@ export class TodosService {
         BaseResponseType<{
           item: Todo
         }>
-      >(`${environment.baseTodoUrl}/todo-lists`, { title }, this.httpOptions)
+      >(`${environment.baseTodoUrl}/todo-lists`, { title })
       .pipe(
         catchError(this.errorHandler.bind(this)),
         map(res => {
@@ -70,7 +65,7 @@ export class TodosService {
 
   deleteTodo(todoId: string) {
     this.http
-      .delete<BaseResponseType>(`${environment.baseTodoUrl}/todo-lists/${todoId}`, this.httpOptions)
+      .delete<BaseResponseType>(`${environment.baseTodoUrl}/todo-lists/${todoId}`)
       .pipe(
         catchError(this.errorHandler.bind(this)),
         map(() => {
