@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core'
-import { Todo, TodosService } from 'src/app/sevrices/todos.service'
+import { TodosService } from 'src/app/todos/services/todos.service'
 import { Observable } from 'rxjs'
+import { Todo } from 'src/app/todos/models/todos.model'
 
 @Component({
   selector: 'inst-todos',
@@ -8,11 +9,8 @@ import { Observable } from 'rxjs'
   styleUrls: ['./todos.component.scss'],
 })
 export class TodosComponent implements OnInit {
-  //todos: Todo[] = []
   todos$!: Observable<Todo[]>
   error = ''
-
-  //subscriptions: Subscription = new Subscription()
 
   constructor(private todosService: TodosService) {}
 

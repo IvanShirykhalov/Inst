@@ -3,28 +3,32 @@ import { BrowserModule } from '@angular/platform-browser'
 
 import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-import { TodosComponent } from './components/todos/todos.component'
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http'
-import { LoginComponent } from './components/login/login.component'
-import { HomeComponent } from './components/home/home.component'
-import { UsersComponent } from './components/users/users.component'
-import { ProfileComponent } from './components/profile/profile.component'
-import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component'
-import { CredentialsInterceptor } from 'src/app/interceptors/credentials.interceptor'
+import { HttpClientModule } from '@angular/common/http'
+import { HomeModule } from 'src/app/home/home.module'
+import { ProfileModule } from 'src/app/profile/profile.module'
+import { UsersModule } from 'src/app/users/users.module'
+import { TodosModule } from 'src/app/todos/todos.module'
+import { AuthModule } from 'src/app/auth/auth.module'
+import { PageNotFoundModule } from 'src/app/page-not-found/page-not-found.module'
+import { SharedModule } from 'src/app/shared/shared.module'
+import { CoreModule } from 'src/app/core/core.module'
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    TodosComponent,
-    LoginComponent,
-    HomeComponent,
-    UsersComponent,
-    ProfileComponent,
-    PageNotFoundComponent,
+  declarations: [AppComponent],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    HomeModule,
+    ProfileModule,
+    UsersModule,
+    TodosModule,
+    AuthModule,
+    PageNotFoundModule,
+    SharedModule,
+    CoreModule,
   ],
-  imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule, ReactiveFormsModule],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: CredentialsInterceptor, multi: true }],
+  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

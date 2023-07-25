@@ -2,23 +2,10 @@ import { Injectable } from '@angular/core'
 import { HttpClient, HttpErrorResponse } from '@angular/common/http'
 import { environment } from 'src/app/environment'
 import { catchError, EMPTY, map, Observable } from 'rxjs'
-import { BeautifulLoggerService } from 'src/app/sevrices/beautiful-logger.service'
+import { BeautifulLoggerService } from 'src/app/core/services/beautiful-logger.service'
+import { User, UsersResponse } from "src/app/users/models/users.model"
 
-interface UsersResponse {
-  items: User[]
-  totalCount: number
-}
 
-export interface User {
-  name: string
-  id: number
-  photos: {
-    small: null | string
-    large: null | string
-  }
-  status: null
-  followed: boolean
-}
 
 @Injectable({
   providedIn: 'root',

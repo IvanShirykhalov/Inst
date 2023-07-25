@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 import { catchError, EMPTY, Observable } from 'rxjs'
 import { environment } from 'src/app/environment'
 import { HttpClient, HttpErrorResponse } from '@angular/common/http'
-import { BeautifulLoggerService } from 'src/app/sevrices/beautiful-logger.service'
+import { BeautifulLoggerService } from 'src/app/core/services/beautiful-logger.service'
 import { Router } from '@angular/router'
 
 export interface ProfileResponse {

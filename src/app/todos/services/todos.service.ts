@@ -2,28 +2,15 @@ import { Injectable } from '@angular/core'
 import { HttpClient, HttpErrorResponse } from '@angular/common/http'
 import { BehaviorSubject, catchError, EMPTY, map } from 'rxjs'
 import { environment } from 'src/app/environment'
-import { BeautifulLoggerService } from 'src/app/sevrices/beautiful-logger.service'
-
-export interface Todo {
-  id: string
-  title: string
-  addedDate: string
-  order: number
-}
-
-export interface BaseResponseType<T = {}> {
-  data: T
-  messages: string[]
-  fieldsErrors: string[]
-  resultCode: number
-}
+import { BeautifulLoggerService } from 'src/app/core/services/beautiful-logger.service'
+import { Todo } from 'src/app/todos/models/todos.model'
+import { BaseResponseType } from 'src/app/core/models/common.module'
 
 @Injectable({
   providedIn: 'root',
 })
 export class TodosService {
   todos$: BehaviorSubject<Todo[]> = new BehaviorSubject<Todo[]>([])
-
 
   constructor(
     private http: HttpClient,
